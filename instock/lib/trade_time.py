@@ -156,8 +156,11 @@ def get_quarterly_report_date():
     return f"{year}{month_day}"
 
 
-def get_bonus_report_date():
-    now_time = datetime.datetime.now()
+def get_bonus_report_date(date,indicator):
+    if indicator == True:
+        now_time = date
+    else:
+        now_time = datetime.datetime.now()
     year = now_time.year
     month = now_time.month
     if 2 <= month <= 6:

@@ -148,9 +148,10 @@ def fetch_stocks_sector_fund_flow(index_sector, index_indicator):
 
 
 # 读取股票分红配送
-def fetch_stocks_bonus(date):
+def fetch_stocks_bonus(date, indicator):
     try:
-        data = sfe.stock_fhps_em(date=trd.get_bonus_report_date())
+        data = sfe.stock_fhps_em(date=trd.get_bonus_report_date(date, indicator))
+  
         if data is None or len(data.index) == 0:
             return None
         if date is None:
