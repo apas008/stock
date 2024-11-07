@@ -164,21 +164,15 @@ def get_bonus_report_date(date,indicator):
     year = now_time.year
     month = now_time.month
     # 季报、半年报、年报
-    if 2 <= month <= 6:
+    if 1 <= month < 4:
         year -= 1
         month_day = '1231'
-    elif 8 <= month <= 12:
+    elif 4 <= month < 6:
+        month_day = '0331'
+    elif 6 <= month < 9:
         month_day = '0630'
-    elif month == 7:
-        if now_time.day > 25:
-            month_day = '0630'
-        else:
-            year -= 1
-            month_day = '1231'
-    else:
-        year -= 1
-        if now_time.day > 25:
-            month_day = '1231'
-        else:
-            month_day = '0630'
+    elif 9 <= month <= 12:
+        month_day = '0930'
+        
+   
     return f"{year}{month_day}"

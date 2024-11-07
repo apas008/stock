@@ -21,9 +21,9 @@ __author__ = 'myh '
 __date__ = '2023/3/10 '
 
 # 设置起始日期
-start_date = datetime(2020, 1, 1)
+start_date = datetime(2024, 1, 1)
 # 设置结束日期（注意：这里不包含结束日期本身，如果需要包含，则循环条件需要调整）
-end_date = datetime(2024, 12, 31)
+end_date = datetime(2025, 1, 1)
 # 设置时间间隔为6个月
 interval = relativedelta(months=6)
 
@@ -248,33 +248,24 @@ def stock_spot_buy(date):
 
 # 往日股票分红配送
 def save_nph_stock_bonus1(start_date, end_date, interval_months=3):
-    # 将日期转换为 datetime 对象（如果它们不是的话）
-    #start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    #end_date = datetime.strptime(end_date, "%Y-%m-%d")
-    # 设置时间间隔
+
     interval = timedelta(days=interval_months * 30.44)  # 注意：这只是一个近似值，因为月份天数不同
-    # 或者使用 dateutil.relativedelta 进行更精确的月份计算
-    # from dateutil.relativedelta import relativedelta
-    # interval = relativedelta(months=interval_months)
+
  
     current_date = start_date
     current_date = current_date.date()
     end_date = end_date.date()
-    while current_date <= end_date:
-        try:
-            data = stf.fetch_stocks_bonus(current_date,True)  # 假设 fetch_stocks_bonus 需要 date 对象
-            if data is None or data.empty:
-                continue  # 如果数据为空，则跳过当前循环迭代
- 
-            table_name = tbs.TABLE_CN_STOCK_BONUS['name']
+    current_dd = datetime.now().strftime("%Y-%m-%d")
+    table_name = tbs.TABLE_CN_STOCK_BONUS['name']
+            
             # 检查表是否存在
-            if mdb.checkTableIsExist(table_name):
+    if mdb.checkTableIsExist(table_name):
                 # 删除旧数据
-                del_sql = f"DELETE FROM `{table_name}` WHERE `date` = '{current_date}'"
+                del_sql = f"DELETE FROM `{table_name}` WHERE `date` = '{current_dd}'"
                 mdb.executeSql(del_sql)
                 cols_type = None
             # 如果表不存在，则获取列类型（这部分逻辑可能需要根据实际情况调整）
-            else:
+    else:
                 try:
                     columns = tbs.TABLE_CN_STOCK_BONUS['columns']
                     cols_type = tbs.get_field_types(columns)
@@ -283,6 +274,14 @@ def save_nph_stock_bonus1(start_date, end_date, interval_months=3):
                 except Exception as e:
                     print(f"An error occurred: {e}")
                 #cols_type = tbs.get_field_types(tbs.TABLE_CN_STOCK_BONUS['columns'])
+    while current_date <= end_date:
+        try:
+            data = stf.fetch_stocks_bonus(current_date,True)  # 假设 fetch_stocks_bonus 需要 date 对象
+            data = data.assign(date= current_dd)
+            if data is None or data.empty:
+                continue  # 如果数据为空，则跳过当前循环迭代
+ 
+            
  
             # 将数据插入数据库
             ccdate = datetime.now().strftime("%Y-%m-%d")

@@ -4,10 +4,10 @@
 import logging
 import os
 import pymysql
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.types import NVARCHAR
 from sqlalchemy import inspect
-
+import pandas as pd
 __author__ = 'myh '
 __date__ = '2023/3/10 '
 
