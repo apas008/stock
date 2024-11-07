@@ -286,7 +286,7 @@ def save_nph_stock_bonus1(start_date, end_date, interval_months=3):
  
             # 将数据插入数据库
             ccdate = datetime.now().strftime("%Y-%m-%d")
-            mdb.insert_db_from_df(data, table_name, cols_type, False, ccdate,"`code`")
+            mdb.insert_db_from_df(data, table_name, cols_type, False, "`plan_date`,`code`")
             #mdb.insert_db_from_df(data, table_name, cols_type, False, "`date`,`code`")
  
         except Exception as e:

@@ -163,6 +163,7 @@ def get_bonus_report_date(date,indicator):
         now_time = datetime.datetime.now()
     year = now_time.year
     month = now_time.month
+    # 季报、半年报、年报
     if 2 <= month <= 6:
         year -= 1
         month_day = '1231'
